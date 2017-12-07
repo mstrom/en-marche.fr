@@ -1,0 +1,11 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    {% if object.isUpcoming %}
+        <span class="label label-warning">À venir</span>
+    {% elseif object.isInProgress %}
+        <span class="label label-primary">En cours</span>
+    {% elseif object.isDone %}
+        <span class="label label-success">Fait</span>
+    {% endif %}
+{% endblock %}

@@ -453,5 +453,19 @@
         <service id="AppBundle\Validator\PayboxSubscriptionValidator">
             <tag name="validator.constraint_validator" />
         </service>
+
+        <!-- Timeline -->
+        <service id="app.timeline.factory" class="AppBundle\Timeline\TimelineFactory">
+            <argument type="service" id="app.content.media_factory"/>
+            <argument type="service" id="app.repository.media"/>
+            <argument type="service" id="sonata.core.slugify.cocur"/>
+            <argument type="service" id="app.storage"/>
+        </service>
+
+        <service id="app.timeline.import_command" class="AppBundle\Command\ImportTimelineCommand">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.timeline.factory" />
+            <tag name="console.command" />
+        </service>
     </services>
 </container>
