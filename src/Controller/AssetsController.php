@@ -6,7 +6,9 @@ use AppBundle\Entity\Article;
 use AppBundle\Entity\Clarification;
 use AppBundle\Entity\CustomSearchResult;
 use AppBundle\Entity\Proposal;
+use AppBundle\Entity\Timeline\Theme;
 use AppBundle\Geocoder\Coordinates;
+use Doctrine\Common\Persistence\ObjectRepository;
 use League\Glide\Filesystem\FileNotFoundException;
 use League\Glide\Responses\SymfonyResponseFactory;
 use League\Glide\Signatures\SignatureException;
@@ -111,7 +113,7 @@ class AssetsController extends Controller
      * @Route(
      *     "/algolia/{type}/{slug}",
      *     defaults={"_enable_campaign_silence"=true},
-     *     requirements={"type"="proposal|custom|article|clarification"}
+     *     requirements={"type"="proposal|custom|article|clarification|timeline-theme"}
      * )
      * @Method("GET")
      * @Cache(maxage=900, smaxage=900)
@@ -152,23 +154,25 @@ class AssetsController extends Controller
         return 'images/'.$entity->getMedia()->getPath();
     }
 
-    private function getTypeRepository(string $type)
+    private function getTypeRepository(string $type): ObjectRepository
     {
-        $manager = $this->getDoctrine()->getManager();
-
-        if ('proposal' === $type) {
-            return $manager->getRepository(Proposal::class);
+        switch ($type) {
+            case 'proposal':
+                $class = Proposal::class;
+                break;
+            case 'clarification':
+                $class = Clarification::class;
+                break;
+            case 'timeline-theme':
+                $class = Theme::class;
+                break;
+            case 'article':
+            default:
+                $class = Article::class;
+                break;
         }
 
-        if ('clarification' === $type) {
-            return $manager->getRepository(Clarification::class);
-        }
-
-        if ('article' === $type) {
-            return $manager->getRepository(Article::class);
-        }
-
-        return $manager->getRepository(Article::class);
+        return $this->getDoctrine()->getManager()->getRepository($class);
     }
 
     /**
