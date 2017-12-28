@@ -14,6 +14,16 @@
             </div>
         {% endif %}
 
+        {% if search.isTypeCitizenProjects() %}
+            <div class="search__bar__options__types">
+                <select name="{{ constant('PARAMETER_CITIZEN_PROJECT_SKILL_IDS', search) }}" class="form" multiple="multiple">
+                    {% for skill in skills %}
+                        <option value="{{ skill.id }}">{{ skill.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+
         <div>
             dans un rayon de
             {# this widget will be embedded in the ribbon text #}

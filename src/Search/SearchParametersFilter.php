@@ -21,6 +21,7 @@ class SearchParametersFilter
     const PARAMETER_TYPE = 't';
     const PARAMETER_OFFSET = 'offset';
     const PARAMETER_EVENT_CATEGORY = 'ec';
+    const PARAMETER_CITIZEN_PROJECT_SKILL_IDS = 'citizen_project_skill_ids';
 
     const DEFAULT_QUERY = '';
     const DEFAULT_TYPE = self::TYPE_COMMITTEES;
@@ -66,6 +67,7 @@ class SearchParametersFilter
     private $offset;
     private $maxResults;
     private $eventCategory;
+    private $citizenProjecSkillIds;
 
     public function __construct(GeocoderInterface $geocoder, AdapterInterface $cache)
     {
@@ -77,6 +79,7 @@ class SearchParametersFilter
         $this->city = self::DEFAULT_CITY;
         $this->offset = 0;
         $this->maxResults = self::DEFAULT_MAX_RESULTS;
+        $this->citizenProjecSkillIds = [];
     }
 
     /**
@@ -91,6 +94,12 @@ class SearchParametersFilter
         $this->setRadius($request->query->getInt(self::PARAMETER_RADIUS));
         $this->setOffset($request->query->getInt(self::PARAMETER_OFFSET));
         $this->setEventCategory($request->query->getAlnum(self::PARAMETER_EVENT_CATEGORY, null));
+
+        if (!is_array($skillIds = $request->query->get(self::PARAMETER_CITIZEN_PROJECT_SKILL_IDS, []))) {
+            $skillIds = [$skillIds];
+        }
+
+        $this->setCitizenProjecSkillIds($skillIds);
 
         if (null !== $city = $request->query->get(self::PARAMETER_CITY)) {
             $this->setCity((string) $city);
@@ -199,6 +208,16 @@ class SearchParametersFilter
     public function setEventCategory(?string $eventCategory)
     {
         $this->eventCategory = $eventCategory;
+    }
+
+    public function getCitizenProjecSkillIds(): array
+    {
+        return $this->citizenProjecSkillIds;
+    }
+
+    public function setCitizenProjecSkillIds(array $ids): void
+    {
+        $this->citizenProjecSkillIds = $ids;
     }
 
     public function isTypeCommittees(): bool
