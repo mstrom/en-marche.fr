@@ -188,6 +188,7 @@ class Theme implements EntityMediaInterface
             }
 
             $measures[] = [
+                'id' => $measure->getId(),
                 'featured' => $themeMeasure->isFeatured(),
                 'title' => $measure->getTitle(),
                 'profiles' => $profiles,
