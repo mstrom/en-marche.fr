@@ -203,10 +203,6 @@ class LoadTimelineData extends AbstractFixture
             $measure->setTitle($metadatas['title']);
             $measure->setStatus($metadatas['status']);
 
-            foreach ($metadatas['themes'] as $themeReference) {
-                $measure->addTheme($this->getReference($themeReference));
-            }
-
             foreach ($metadatas['profiles'] as $profileReference) {
                 $measure->addProfile($this->getReference($profileReference));
             }
