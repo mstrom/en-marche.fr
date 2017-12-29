@@ -40,5 +40,9 @@
 		<!-- Form -->
 		<service id="AppBundle\Form\CitizenProjectCommentCommandType"/>
 		<service id="AppBundle\Form\CitizenProjectCommandType"/>
+
+		<!-- Timeline -->
+		<service id="AppBundle\Timeline\TimelineFactory" />
+		<service id="AppBundle\Command\ImportTimelineCommand" />
 	</services>
 </container>
