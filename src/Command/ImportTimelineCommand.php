@@ -6,7 +6,7 @@ use AppBundle\Entity\Timeline\Measure;
 use AppBundle\Entity\Timeline\Profile;
 use AppBundle\Entity\Timeline\Theme;
 use AppBundle\Timeline\TimelineFactory;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +18,7 @@ class ImportTimelineCommand extends Command
     private const CHOICES_BOOLEAN = ['oui' => true, 'non' => false];
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -27,7 +27,7 @@ class ImportTimelineCommand extends Command
      */
     private $factory;
 
-    public function __construct(EntityManager $em, TimelineFactory $factory)
+    public function __construct(EntityManagerInterface $em, TimelineFactory $factory)
     {
         $this->em = $em;
         $this->factory = $factory;
@@ -273,7 +273,7 @@ class ImportTimelineCommand extends Command
         $output->writeln('Saved featured theme measures.');
     }
 
-    private function parseCSV(string $filepath, bool $includeHeader = false): array
+    private function parseCSV(string $filepath): array
     {
         if (false === ($handle = fopen($filepath, 'r'))) {
             throw new FileNotFoundException(sprintf('File "%s" was not found', $filename));
@@ -281,7 +281,7 @@ class ImportTimelineCommand extends Command
 
         $isFirstRow = true;
         while (false !== ($data = fgetcsv($handle, 0, ','))) {
-            if (true === $isFirstRow && false === $includeHeader) {
+            if (true === $isFirstRow) {
                 $isFirstRow = false;
 
                 continue;

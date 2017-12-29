@@ -22,10 +22,6 @@ class TimelineProfileAdmin extends AbstractAdmin
                     'label' => 'Titre',
                     'filter_emojis' => true,
                 ])
-                ->add('media', null, [
-                    'label' => 'Image principale',
-                    'required' => false,
-                ])
             ->end()
             ->with('Publication', ['class' => 'col-md-4'])
                 ->add('slug', null, [
