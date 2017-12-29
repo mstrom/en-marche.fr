@@ -111,9 +111,18 @@ class Measure
      */
     private $profiles;
 
-    public function __construct()
-    {
-        $this->profiles = new ArrayCollection();
+    public function __construct(
+        string $title,
+        string $status,
+        array $profiles = [],
+        ?string $link = null,
+        ?bool $isGlobal = false
+    ) {
+        $this->title = $title;
+        $this->status = $status;
+        $this->link = $link;
+        $this->global = $isGlobal;
+        $this->profiles = new ArrayCollection($profiles);
     }
 
     public function __toString()

@@ -55,6 +55,13 @@ class Profile
      */
     private $description;
 
+    public function __construct(string $title, string $slug, string $description)
+    {
+        $this->title = $title;
+        $this->slug = $slug;
+        $this->description = $description;
+    }
+
     public function __toString()
     {
         return $this->title ?: '';

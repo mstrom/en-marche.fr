@@ -176,10 +176,7 @@ class LoadTimelineData extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         foreach (self::PROFILES as $reference => $metadatas) {
-            $profil = new Profile();
-            $profil->setTitle($metadatas['title']);
-            $profil->setSlug($metadatas['slug']);
-            $profil->setDescription($metadatas['description']);
+            $profil = new Profile($metadatas['title'], $metadatas['slug'], $metadatas['description']);
 
             $this->addReference($reference, $profil);
 
@@ -199,13 +196,16 @@ class LoadTimelineData extends AbstractFixture
         }
 
         foreach (self::MEASURES as $reference => $metadatas) {
-            $measure = new Measure();
-            $measure->setTitle($metadatas['title']);
-            $measure->setStatus($metadatas['status']);
-
+            $profiles = [];
             foreach ($metadatas['profiles'] as $profileReference) {
-                $measure->addProfile($this->getReference($profileReference));
+                $profiles[] = $this->getReference($profileReference);
             }
+
+            $measure = new Measure(
+                $metadatas['title'],
+                $metadatas['status'],
+                $profiles
+            );
 
             $manager->persist($measure);
         }

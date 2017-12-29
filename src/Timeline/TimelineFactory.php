@@ -3,7 +3,6 @@
 namespace AppBundle\Timeline;
 
 use AppBundle\Content\MediaFactory;
-use AppBundle\Entity\Timeline\Measure;
 use AppBundle\Entity\Timeline\Profile;
 use AppBundle\Entity\Timeline\Theme;
 use AppBundle\Entity\Media;
@@ -43,13 +42,7 @@ class TimelineFactory
 
     public function createProfile(string $title, string $description): Profile
     {
-        $profile = new Profile();
-
-        $profile->setTitle($title);
-        $profile->setSlug($this->slugify($title));
-        $profile->setDescription($description);
-
-        return $profile;
+        return new Profile($title, $this->slugify($title), $description);
     }
 
     public function createTheme(string $title, string $description, string $imageUrl, bool $isFeatured = false): Theme
@@ -63,31 +56,6 @@ class TimelineFactory
         $theme->setFeatured($isFeatured);
 
         return $theme;
-    }
-
-    public function createMeasure(
-        string $title,
-        string $status,
-        array $profiles = [],
-        ?string $link = null,
-        ?bool $isGlobal = false
-    ): Measure {
-        $measure = new Measure();
-
-        $measure->setTitle($title);
-        $measure->setStatus($status);
-
-        if (!empty($link)) {
-            $measure->setLink($link);
-        }
-
-        $measure->setGlobal($isGlobal);
-
-        foreach ($profiles as $profile) {
-            $measure->addProfile($profile);
-        }
-
-        return $measure;
     }
 
     private function createMedia(string $name, string $path): Media

@@ -81,7 +81,7 @@ class ImportTimelineCommand extends Command
 
             $this->em->persist($this->factory->createProfile($title, $description));
 
-            $count++;
+            ++$count;
         }
 
         $this->em->flush();
@@ -116,11 +116,11 @@ class ImportTimelineCommand extends Command
             }
 
             if (empty($description)) {
-                throw new \RuntimeException(sprintf('No description found for theme "%s". (line %s)', $title,$index + 2));
+                throw new \RuntimeException(sprintf('No description found for theme "%s". (line %s)', $title, $index + 2));
             }
 
             if (empty($imageUrl)) {
-                throw new \RuntimeException(sprintf('No image url found for theme "%s". (line %s)', $title,$index + 2));
+                throw new \RuntimeException(sprintf('No image url found for theme "%s". (line %s)', $title, $index + 2));
             }
 
             $this->em->persist($this->factory->createTheme(
@@ -130,7 +130,7 @@ class ImportTimelineCommand extends Command
                 self::BOOLEAN_CHOICES[$isFeatured]
             ));
 
-            $count++;
+            ++$count;
         }
 
         $this->em->flush();
@@ -210,7 +210,7 @@ class ImportTimelineCommand extends Command
                 }
             }
 
-            $measure = $this->factory->createMeasure(
+            $measure = new Measure(
                 $title,
                 Measure::STATUSES[$status],
                 $relatedProfiles,
@@ -224,9 +224,9 @@ class ImportTimelineCommand extends Command
                 $this->em->persist(new ThemeMeasure($theme, $measure, false));
             }
 
-            $count++;
+            ++$count;
 
-            if (($count % 50) === 0) {
+            if (0 === ($count % 50)) {
                 $this->em->flush();
                 $this->em->clear(Measure::class);
                 $this->em->clear(ThemeMeasure::class);
@@ -317,6 +317,3 @@ class ImportTimelineCommand extends Command
         return $themes ?? [];
     }
 }
-
-
-
