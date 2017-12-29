@@ -35,6 +35,11 @@ class TimelineFactory
         $this->storage = $storage;
         $this->filesystem = $filesystem;
 
+        $this->slugifier->addRules([
+            'é' => 'e',
+            'è' => 'e',
+            'à' => 'a',
+        ]);
     }
 
     public function createProfile(string $title, string $description): Profile
@@ -55,7 +60,7 @@ class TimelineFactory
         $theme->setTitle($title);
         $theme->setSlug($this->slugify($title));
         $theme->setDescription($description);
-        $theme->setMedia($this->createMedia('Timeline - Thème $title', $imageUrl));
+        $theme->setMedia($this->createMedia("Timeline - Thème $title", $imageUrl));
         $theme->setFeatured($isFeatured);
 
         return $theme;
@@ -64,7 +69,6 @@ class TimelineFactory
     public function createMeasure(
         string $title,
         string $status,
-        array $themes = [],
         array $profiles = [],
         ?string $link = null,
         ?bool $isGlobal = false
@@ -79,14 +83,6 @@ class TimelineFactory
         }
 
         $measure->setGlobal($isGlobal);
-
-        foreach ($themes as $theme) {
-            $themeMeasure = new ThemeMeasure();
-            $themeMeasure->setTheme($theme);
-            $themeMeasure->setMeasure($measure);
-
-            $theme->addMeasure($themeMeasure);
-        }
 
         foreach ($profiles as $profile) {
             $measure->addProfile($profile);

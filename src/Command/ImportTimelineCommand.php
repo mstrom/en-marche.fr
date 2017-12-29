@@ -5,6 +5,7 @@ namespace AppBundle\Command;
 use AppBundle\Entity\Timeline\Measure;
 use AppBundle\Entity\Timeline\Profile;
 use AppBundle\Entity\Timeline\Theme;
+use AppBundle\Entity\Timeline\ThemeMeasure;
 use AppBundle\Timeline\TimelineFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -17,14 +18,7 @@ class ImportTimelineCommand extends Command
 {
     private const BOOLEAN_CHOICES = ['oui' => true, 'non' => false];
 
-    /**
-     * @var EntityManagerInterface
-     */
     private $em;
-
-    /**
-     * @var TimelineFactory
-     */
     private $factory;
 
     public function __construct(EntityManagerInterface $em, TimelineFactory $factory)
@@ -216,19 +210,26 @@ class ImportTimelineCommand extends Command
                 }
             }
 
-            $this->em->persist($this->factory->createMeasure(
+            $measure = $this->factory->createMeasure(
                 $title,
                 Measure::STATUSES[$status],
-                $relatedThemes,
                 $relatedProfiles,
                 $link,
                 !empty($isGlobal)
-            ));
+            );
+
+            $this->em->persist($measure);
+
+            foreach ($relatedThemes as $theme) {
+                $this->em->persist(new ThemeMeasure($theme, $measure, false));
+            }
 
             $count++;
 
             if (($count % 50) === 0) {
                 $this->em->flush();
+                $this->em->clear(Measure::class);
+                $this->em->clear(ThemeMeasure::class);
 
                 $output->writeln(sprintf('Saved %s measures.', $count));
             }

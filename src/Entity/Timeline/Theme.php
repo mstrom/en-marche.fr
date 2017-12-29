@@ -66,6 +66,8 @@ class Theme implements EntityMediaInterface
      * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Algolia\Attribute
      */
     private $featured = false;
 
@@ -73,8 +75,6 @@ class Theme implements EntityMediaInterface
      * @var ThemeMeasure[]|Collection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Timeline\ThemeMeasure", mappedBy="theme", cascade={"all"})
-     *
-     * @Algolia\Attribute
      */
     private $measures;
 
@@ -133,14 +133,6 @@ class Theme implements EntityMediaInterface
         $this->featured = $featured;
     }
 
-    /**
-     * @Algolia\Attribute
-     */
-    public function isFeatured(): ?string
-    {
-        return true === $this->featured ? $this->title : null;
-    }
-
     public function getMeasures(): Collection
     {
         return $this->measures;
@@ -173,5 +165,38 @@ class Theme implements EntityMediaInterface
            $this->title,
            $measure->getTitle()
         ));
+    }
+
+    /**
+     * @Algolia\Attribute
+     */
+    public function measures(): array
+    {
+        $measures = [];
+
+        foreach ($this->measures as $themeMeasure) {
+            $measure = $themeMeasure->getMeasure();
+
+            $profiles = [];
+            foreach ($measure->getProfiles() as $profile) {
+                $profiles[] = [
+                    'title' => $profile->getTitle(),
+                    'slug' => $profile->getSlug(),
+                    'description' => $profile->getDescription(),
+                ];
+            }
+
+            $measures[] = [
+                'featured' => $themeMeasure->isFeatured(),
+                'title' => $measure->getTitle(),
+                'profiles' => $profiles,
+                'updated' => $measure->getUpdatedAt(),
+                'link' => $measure->getLink(),
+                'status' => $measure->getStatus(),
+                'global' => $measure->getGlobal(),
+            ];
+        }
+
+        return $measures;
     }
 }
