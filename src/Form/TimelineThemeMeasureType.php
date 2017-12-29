@@ -12,25 +12,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TimelineThemeMeasureType extends AbstractType
 {
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => ThemeMeasure::class,
+        ]);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('measure', EntityType::class, [
                 'label' => 'Mesure',
                 'class' => Measure::class,
-                'required' => true,
             ])
             ->add('featured', CheckboxType::class, [
                 'label' => 'Mise en avant',
                 'required' => false,
             ]);
 
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => ThemeMeasure::class,
-        ]);
     }
 }

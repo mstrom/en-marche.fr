@@ -149,7 +149,7 @@
             <factory service="doctrine" method="getRepository"/>
         </service>
 
-        <service id="app.repository.media" class="AppBundle\Repository\MediaRepository" public="false">
+        <service id="AppBundle\Repository\MediaRepository" public="false">
             <argument>AppBundle\Entity\Media</argument>
             <factory service="doctrine" method="getRepository"/>
         </service>

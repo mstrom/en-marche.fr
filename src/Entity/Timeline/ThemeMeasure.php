@@ -46,7 +46,7 @@ class ThemeMeasure
      */
     private $measure;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

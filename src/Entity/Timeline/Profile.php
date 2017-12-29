@@ -60,7 +60,7 @@ class Profile
         return $this->title ?: '';
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
