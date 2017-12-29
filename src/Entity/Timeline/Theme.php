@@ -156,6 +156,7 @@ class Theme implements EntityMediaInterface
         foreach ($this->measures as $themeMeasure) {
             if ($themeMeasure->getMeasure()->getTitle() === $measure->getTitle()) {
                 $themeMeasure->setFeatured(true);
+
                 return;
             }
         }

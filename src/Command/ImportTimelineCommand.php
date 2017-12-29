@@ -72,11 +72,11 @@ class ImportTimelineCommand extends Command
             list($title, $description) = $row;
 
             if (empty($title)) {
-                throw new \RuntimeException(sprintf('No title found for profile. (line %s)', $index+2));
+                throw new \RuntimeException(sprintf('No title found for profile. (line %s)', $index + 2));
             }
 
             if (empty($description)) {
-                throw new \RuntimeException(sprintf('No description found for profile "%s". (line %s)', $title, $index+2));
+                throw new \RuntimeException(sprintf('No description found for profile "%s". (line %s)', $title, $index + 2));
             }
 
             $this->em->persist($this->factory->createProfile($title, $description));
@@ -101,7 +101,7 @@ class ImportTimelineCommand extends Command
             list($title, $isFeatured, $description, $imageUrl) = $row;
 
             if (empty($title)) {
-                throw new \RuntimeException(sprintf('No title found for theme. (line %s)', $index+2));
+                throw new \RuntimeException(sprintf('No title found for theme. (line %s)', $index + 2));
             }
 
             $isFeatured = strtolower($isFeatured);
@@ -111,16 +111,16 @@ class ImportTimelineCommand extends Command
                     $isFeatured,
                     $title,
                     implode(', ', array_keys(self::BOOLEAN_CHOICES)),
-                    $index+2
+                    $index + 2
                 ));
             }
 
             if (empty($description)) {
-                throw new \RuntimeException(sprintf('No description found for theme "%s". (line %s)', $title,$index+2));
+                throw new \RuntimeException(sprintf('No description found for theme "%s". (line %s)', $title,$index + 2));
             }
 
             if (empty($imageUrl)) {
-                throw new \RuntimeException(sprintf('No image url found for theme "%s". (line %s)', $title,$index+2));
+                throw new \RuntimeException(sprintf('No image url found for theme "%s". (line %s)', $title,$index + 2));
             }
 
             $this->em->persist($this->factory->createTheme(
@@ -153,7 +153,7 @@ class ImportTimelineCommand extends Command
             list($title, $status, $isGlobal, $themes, $profiles, $link) = $row;
 
             if (empty($title)) {
-                throw new \RuntimeException(sprintf('No title found for measure. (line %s)', $index+2));
+                throw new \RuntimeException(sprintf('No title found for measure. (line %s)', $index + 2));
             }
 
             if (Measure::TITLE_MAX_LENGTH < mb_strlen($title)) {
@@ -170,7 +170,7 @@ class ImportTimelineCommand extends Command
                     $title,
                     $status,
                     implode(', ', array_keys(Measure::STATUSES)),
-                    $index+2
+                    $index + 2
                 ));
             }
 
@@ -184,7 +184,7 @@ class ImportTimelineCommand extends Command
                             'No theme found with title "%s" for measure "%s". (line %s)',
                             $themeTitle,
                             $title,
-                            $index+2
+                            $index + 2
                         ));
                     }
 
@@ -202,7 +202,7 @@ class ImportTimelineCommand extends Command
                             'No profile found with title "%s" for measure "%s". (line %s)',
                             $profileTitle,
                             $title,
-                            $index+2
+                            $index + 2
                         ));
                     }
 
