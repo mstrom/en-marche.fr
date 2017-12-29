@@ -16,41 +16,24 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class TimelineFactory
 {
-    /**
-     * @var Filesystem|null
-     */
     private $filesystem;
-
-    /**
-     * @var MediaFactory
-     */
     private $mediaFactory;
-
-    /**
-     * @var MediaRepository
-     */
     private $mediaRepository;
-
-    /**
-     * @var Slugify
-     */
     private $slugifier;
-
-    /**
-     * @var Storage
-     */
     private $storage;
 
     public function __construct(
         MediaFactory $mediaFactory,
         MediaRepository $mediaRepository,
         Slugify $slugifier,
-        Storage $storage
+        Storage $storage,
+        Filesystem $filesystem
     ) {
         $this->mediaFactory = $mediaFactory;
         $this->mediaRepository = $mediaRepository;
         $this->slugifier = $slugifier;
         $this->storage = $storage;
+        $this->filesystem = $filesystem;
 
     }
 
@@ -72,7 +55,7 @@ class TimelineFactory
         $theme->setTitle($title);
         $theme->setSlug($this->slugify($title));
         $theme->setDescription($description);
-        $theme->setMedia($this->createMedia('Timeline - Thème '.$title, $imageUrl));
+        $theme->setMedia($this->createMedia('Timeline - Thème $title', $imageUrl));
         $theme->setFeatured($isFeatured);
 
         return $theme;
@@ -125,7 +108,7 @@ class TimelineFactory
         $mediaPath = sprintf('timeline_macron/%s.jpg', $this->slugify($name));
         $temporaryFilename = sprintf('%s/%s', sys_get_temp_dir(), $mediaPath);
 
-        $this->getFilesystem()->copy($path, $temporaryFilename);
+        $this->filesystem->copy($path, $temporaryFilename);
 
         $mediaFile = new File($temporaryFilename);
 
@@ -139,14 +122,5 @@ class TimelineFactory
     private function slugify(string $string): string
     {
         return $this->slugifier->slugify($string);
-    }
-
-    private function getFilesystem(): Filesystem
-    {
-        if (!$this->filesystem) {
-            $this->filesystem = new Filesystem();
-        }
-
-        return $this->filesystem;
     }
 }

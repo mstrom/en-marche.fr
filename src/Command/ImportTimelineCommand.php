@@ -15,7 +15,7 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class ImportTimelineCommand extends Command
 {
-    private const CHOICES_BOOLEAN = ['oui' => true, 'non' => false];
+    private const BOOLEAN_CHOICES = ['oui' => true, 'non' => false];
 
     /**
      * @var EntityManagerInterface
@@ -42,7 +42,8 @@ class ImportTimelineCommand extends Command
             ->addArgument('profilesUrl', InputArgument::REQUIRED)
             ->addArgument('themesUrl', InputArgument::REQUIRED)
             ->addArgument('measuresUrl', InputArgument::REQUIRED)
-            ->setDescription('Import timeline from CSV files');
+            ->setDescription('Import timeline from CSV files')
+        ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -77,11 +78,11 @@ class ImportTimelineCommand extends Command
             list($title, $description) = $row;
 
             if (empty($title)) {
-                throw new \LogicException(sprintf('No title found for profile. (line %s)', $index+2));
+                throw new \RuntimeException(sprintf('No title found for profile. (line %s)', $index+2));
             }
 
             if (empty($description)) {
-                throw new \LogicException(sprintf('No description found for profile "%s". (line %s)', $title, $index+2));
+                throw new \RuntimeException(sprintf('No description found for profile "%s". (line %s)', $title, $index+2));
             }
 
             $this->em->persist($this->factory->createProfile($title, $description));
@@ -106,33 +107,33 @@ class ImportTimelineCommand extends Command
             list($title, $isFeatured, $description, $imageUrl) = $row;
 
             if (empty($title)) {
-                throw new \LogicException(sprintf('No title found for theme. (line %s)', $index+2));
+                throw new \RuntimeException(sprintf('No title found for theme. (line %s)', $index+2));
             }
 
             $isFeatured = strtolower($isFeatured);
-            if (!array_key_exists($isFeatured, self::CHOICES_BOOLEAN)) {
-                throw new \LogicException(sprintf(
+            if (!array_key_exists($isFeatured, self::BOOLEAN_CHOICES)) {
+                throw new \RuntimeException(sprintf(
                     'Invalid featured flag label "%s" given for theme "%s". Valid values are: "%s". (line %s)',
                     $isFeatured,
                     $title,
-                    implode(', ', array_keys(self::CHOICES_BOOLEAN)),
+                    implode(', ', array_keys(self::BOOLEAN_CHOICES)),
                     $index+2
                 ));
             }
 
             if (empty($description)) {
-                throw new \LogicException(sprintf('No description found for theme "%s". (line %s)', $title,$index+2));
+                throw new \RuntimeException(sprintf('No description found for theme "%s". (line %s)', $title,$index+2));
             }
 
             if (empty($imageUrl)) {
-                throw new \LogicException(sprintf('No image url found for theme "%s". (line %s)', $title,$index+2));
+                throw new \RuntimeException(sprintf('No image url found for theme "%s". (line %s)', $title,$index+2));
             }
 
             $this->em->persist($this->factory->createTheme(
                 $title,
                 $description,
                 $imageUrl,
-                self::CHOICES_BOOLEAN[$isFeatured]
+                self::BOOLEAN_CHOICES[$isFeatured]
             ));
 
             $count++;
@@ -158,11 +159,11 @@ class ImportTimelineCommand extends Command
             list($title, $status, $isGlobal, $themes, $profiles, $link) = $row;
 
             if (empty($title)) {
-                throw new \LogicException(sprintf('No title found for measure. (line %s)', $index+2));
+                throw new \RuntimeException(sprintf('No title found for measure. (line %s)', $index+2));
             }
 
             if (Measure::TITLE_MAX_LENGTH < mb_strlen($title)) {
-                throw new \LogicException(sprintf(
+                throw new \RuntimeException(sprintf(
                     'Measure title "%s" is too long. (%s characters max).',
                     $title,
                     Measure::TITLE_MAX_LENGTH
@@ -170,7 +171,7 @@ class ImportTimelineCommand extends Command
             }
 
             if (!array_key_exists($status, Measure::STATUSES)) {
-                throw new \LogicException(sprintf(
+                throw new \RuntimeException(sprintf(
                     'Invalid status for measure "%s": "%s" given, valid values are "%s". (line %s)',
                     $title,
                     $status,
@@ -185,7 +186,7 @@ class ImportTimelineCommand extends Command
                     $themeTitle = trim($themeTitle);
 
                     if (!array_key_exists($themeTitle, $savedThemes)) {
-                        throw new \LogicException(sprintf(
+                        throw new \RuntimeException(sprintf(
                             'No theme found with title "%s" for measure "%s". (line %s)',
                             $themeTitle,
                             $title,
@@ -203,7 +204,7 @@ class ImportTimelineCommand extends Command
                     $profileTitle = trim($profileTitle);
 
                     if (!array_key_exists($profileTitle, $savedProfiles)) {
-                        throw new \LogicException(sprintf(
+                        throw new \RuntimeException(sprintf(
                             'No profile found with title "%s" for measure "%s". (line %s)',
                             $profileTitle,
                             $title,
@@ -256,7 +257,7 @@ class ImportTimelineCommand extends Command
 
             foreach ($measureTitles as $measureTitle) {
                 if (!$measure = $measureRepository->findOneByTitle($measureTitle)) {
-                    throw new \InvalidArgumentException(sprintf(
+                    throw new \RuntimeException(sprintf(
                         'Measure "%s" does not exist for theme "%s".',
                         $measureTitle,
                         $themeTitle
