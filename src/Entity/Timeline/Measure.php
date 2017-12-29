@@ -88,6 +88,8 @@ class Measure
      * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Algolia\Attribute
      */
     private $global = false;
 
@@ -184,14 +186,6 @@ class Measure
     public function setGlobal(bool $global): void
     {
         $this->global = $global;
-    }
-
-    /**
-     * @Algolia\Attribute
-     */
-    public function isGlobal(): ?string
-    {
-        return true === $this->global ? $this->title : null;
     }
 
     public function getProfiles(): Collection

@@ -27,18 +27,20 @@ class ThemeMeasure
      * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Algolia\Attribute
      */
     private $featured = false;
 
     /**
-     * @var Theme|null
+     * @var Theme
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Timeline\Theme", inversedBy="measures")
      */
     private $theme;
 
     /**
-     * @var Measure|null
+     * @var Measure
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Timeline\Measure")
      *
@@ -46,12 +48,19 @@ class ThemeMeasure
      */
     private $measure;
 
+    public function __construct(Theme $theme, Measure $measure, bool $featured)
+    {
+        $this->theme = $theme;
+        $this->measure = $measure;
+        $this->featured = $featured;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFeatured(): bool
+    public function isFeatured(): bool
     {
         return $this->featured;
     }
@@ -59,14 +68,6 @@ class ThemeMeasure
     public function setFeatured(bool $featured): void
     {
         $this->featured = $featured;
-    }
-
-    /**
-     * @Algolia\Attribute
-     */
-    public function isFeatured(): ?string
-    {
-        return true === $this->featured ? $this->title : null;
     }
 
     public function getTheme(): ?Theme
