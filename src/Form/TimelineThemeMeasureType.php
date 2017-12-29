@@ -30,6 +30,5 @@ class TimelineThemeMeasureType extends AbstractType
                 'label' => 'Mise en avant',
                 'required' => false,
             ]);
-
     }
 }

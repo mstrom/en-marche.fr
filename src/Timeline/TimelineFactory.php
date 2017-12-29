@@ -7,7 +7,6 @@ use AppBundle\Entity\Timeline\Measure;
 use AppBundle\Entity\Timeline\Profile;
 use AppBundle\Entity\Timeline\Theme;
 use AppBundle\Entity\Media;
-use AppBundle\Entity\Timeline\ThemeMeasure;
 use AppBundle\Repository\MediaRepository;
 use Cocur\Slugify\Slugify;
 use League\Flysystem\Filesystem as Storage;
