@@ -91,12 +91,12 @@ class ReferentControllerTest extends SqliteWebTestCase
         $data['committee_event']['category'] = 4;
         $data['committee_event']['beginAt']['date']['day'] = 14;
         $data['committee_event']['beginAt']['date']['month'] = 6;
-        $data['committee_event']['beginAt']['date']['year'] = 2017;
+        $data['committee_event']['beginAt']['date']['year'] = 2018;
         $data['committee_event']['beginAt']['time']['hour'] = 9;
         $data['committee_event']['beginAt']['time']['minute'] = 0;
         $data['committee_event']['finishAt']['date']['day'] = 15;
         $data['committee_event']['finishAt']['date']['month'] = 6;
-        $data['committee_event']['finishAt']['date']['year'] = 2017;
+        $data['committee_event']['finishAt']['date']['year'] = 2018;
         $data['committee_event']['finishAt']['time']['hour'] = 23;
         $data['committee_event']['finishAt']['time']['minute'] = 0;
         $data['committee_event']['address']['address'] = 'Pilgerweg 58';
@@ -118,7 +118,7 @@ class ReferentControllerTest extends SqliteWebTestCase
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
 
         $this->assertSame('Pilgerweg 58, 8802 Kilchberg, Suisse', $this->client->getCrawler()->filter('span.committee-event-address')->text());
-        $this->assertSame('Mercredi 14 juin 2017, 9h00', $this->client->getCrawler()->filter('span.committee-event-date')->text());
+        $this->assertSame('Jeudi 14 juin 2018, 9h00', $this->client->getCrawler()->filter('span.committee-event-date')->text());
         $this->assertSame('Premier événement en Suisse', $this->client->getCrawler()->filter('div.committee-event-description')->text());
         $this->assertContains('1 inscrit', $this->client->getCrawler()->filter('div.committee-event-attendees')->html());
     }
