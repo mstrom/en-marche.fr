@@ -53,6 +53,9 @@ class CitizenProjectCommand
      */
     public $phone;
 
+    /**
+     * @Assert\NotBlank
+     */
     public $category;
 
     public $committeeSupports;
