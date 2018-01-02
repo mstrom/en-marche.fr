@@ -96,7 +96,6 @@ class ReferentControllerTest extends SqliteWebTestCase
         $data['committee_event']['beginAt']['time']['minute'] = 0;
         $data['committee_event']['finishAt']['date']['day'] = 15;
         $data['committee_event']['finishAt']['date']['month'] = 6;
-        $data['committee_event']['finishAt']['date']['year'] = 2018;
         $data['committee_event']['finishAt']['date']['year'] = date('Y');
         $data['committee_event']['finishAt']['time']['hour'] = 23;
         $data['committee_event']['finishAt']['time']['minute'] = 0;
