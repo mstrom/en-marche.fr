@@ -7,5 +7,7 @@
         <span class="label label-primary">En cours</span>
     {% elseif object.isDone %}
         <span class="label label-success">Fait</span>
+    {% elseif object.isDeferred %}
+        <span class="label label-danger">Reporté</span>
     {% endif %}
 {% endblock %}
