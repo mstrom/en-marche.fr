@@ -33,11 +33,7 @@ class TimelineFactory
         $this->storage = $storage;
         $this->filesystem = $filesystem;
 
-        $this->slugifier->addRules([
-            'é' => 'e',
-            'è' => 'e',
-            'à' => 'a',
-        ]);
+        $this->slugifier->activateRuleSet('default');
     }
 
     public function createProfile(string $title, string $description): Profile
