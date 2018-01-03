@@ -106,6 +106,9 @@
                 {% set adherent_committees %}
                     {{ render(controller('AppBundle:EnMarche/Adherent:listMyCommittees')) }}
                 {% endset %}
+                {% set adherent_citizen_projects %}
+                {{ render(controller('AppBundle:EnMarche/Adherent:listMyCitizenProjects')) }}
+            {% endset %}
             {% endif %}
             <!--  Header / Navigation Desktop -->
             {{ include('components/_nav_desktop.html.twig') }}
@@ -126,7 +129,6 @@
                 <a href="javascript:void(0)" id="je-ferme-la-recherche"
                    class="l__row l__row--center text--body link--no-decor icon--with-text--reversed btn__icon">
                     <span>Fermer la recherche</span>
-                    9b8c422d... Change navigation bar & menu
                     {{ include('components/close.html.twig') }}
                 </a>
             </div>

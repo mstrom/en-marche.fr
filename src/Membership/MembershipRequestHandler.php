@@ -75,11 +75,9 @@ class MembershipRequestHandler
     {
         $adherent->leave();
 
-        if ($removeAccount) {
-            $unregistrationFactory = new UnregistrationFactory();
-            $unregistration = $unregistrationFactory->createFromUnregistrationCommandAndAdherent($command, $adherent);
-            $this->adherentRegistry->unregister($adherent, $unregistration);
-        }
+        $unregistrationFactory = new UnregistrationFactory();
+        $unregistration = $unregistrationFactory->createFromUnregistrationCommandAndAdherent($command, $adherent);
+        $this->adherentRegistry->unregister($adherent, $unregistration, $removeAccount);
 
         $message = AdherentTerminateMembershipMessage::createFromAdherent($adherent);
         $this->mailer->sendMessage($message);

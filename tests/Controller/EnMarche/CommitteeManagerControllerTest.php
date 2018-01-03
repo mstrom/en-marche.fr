@@ -340,7 +340,7 @@ class CommitteeManagerControllerTest extends MysqlWebTestCase
     {
         // Authenticate as the committee supervisor
         $crawler = $this->authenticateAsAdherent($this->client, $username);
-        $adherent = $this->getAdherentRepository()->findByEmail($username);
+        $adherent = $this->getAdherentRepository()->findOneByEmail($username);
         if (count($adherent->getMemberships()) > 1) {
             $crawler = $this->client->click($crawler->selectLink('En Marche Paris 8')->link());
         } else {

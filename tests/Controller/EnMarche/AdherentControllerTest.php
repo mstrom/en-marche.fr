@@ -201,7 +201,7 @@ class AdherentControllerTest extends MysqlWebTestCase
 
         // We need to reload the manager reference to get the updated data
         /** @var Adherent $adherent */
-        $adherent = $this->client->getContainer()->get('doctrine')->getManager()->getRepository(Adherent::class)->findOneByEmail('new.email@address.com');
+        $adherent = $this->client->getContainer()->get('doctrine')->getManager()->getRepository(Adherent::class)->findOneByEmail('carl999@example.fr');
 
         $this->assertSame('female', $adherent->getGender());
         $this->assertSame('9 rue du Lycée', $adherent->getAddress());
@@ -713,7 +713,7 @@ class AdherentControllerTest extends MysqlWebTestCase
 
         /* @var Adherent $adherent */
         $this->get('doctrine')->getManager()->clear();
-        $adherent = $this->getAdherentRepository()->findByEmail('michel.vasseur@example.ch');
+        $adherent = $this->getAdherentRepository()->findOneByEmail('michel.vasseur@example.ch');
 
         $this->assertFalse($adherent->isAdherent());
 
@@ -726,7 +726,7 @@ class AdherentControllerTest extends MysqlWebTestCase
         $this->assertSame('3 adhérents', $crawler->filter('.committee-members')->text());
 
         /** @var Unregistration $unregistration */
-        $unregistration = $this->getRepository(Unregistration::class)->findOneByUuid(LoadAdherentData::ADHERENT_13_UUID);
+        $unregistration = $this->getRepository(Unregistration::class)->findOneBy(['uuid' => LoadAdherentData::ADHERENT_13_UUID]);
 
         $this->assertSame(array_values($chosenReasons), $unregistration->getReasons());
         $this->assertSame('Je me désinscris', $unregistration->getComment());

@@ -20,7 +20,10 @@
                 <a class="text--medium-small" href="{{ path('app_register_fully') }}">Devenir adhérent(e)</a>
             </li>
         {% endif %}
-        {{ adherent_committees }}
+        {% if is_granted('ROLE_ADHERENT') %}
+            {{ adherent_committees }}
+            {{ adherent_citizen_projects }}
+        {% endif %}
         {% if is_granted('ROLE_REFERENT') %}
             <li>
                 <a class="text--medium-small" href="{{ path('app_referent_users') }}">Espace référent</a>
@@ -74,7 +77,7 @@
                     </a>
                 {% else %}
                     {% if app.user %}
-                        <a href="{{ is_granted('ROLE_ADHERENT') ? path('app_adherent_profile') }}" class="icon--with-text text--medium-small nav__user__name">
+                        <a href="{{ is_granted('ROLE_ADHERENT') ? path('app_user_profile') }}" class="icon--with-text text--medium-small nav__user__name">
                             {{ include('components/user.html.twig') }}
                         </a>
                     {% endif %}
@@ -99,7 +102,7 @@
                                 </li>
                                 <li class="nav__user__menu__separator"></li>
                                 <li>
-                                    {% set url = is_granted('ROLE_ADHERENT') ? path('app_adherent_profile') : path('hwi_oauth_service_redirect', {service: 'auth'}) %}
+                                    {% set url = is_granted('ROLE_ADHERENT') ? path('app_user_profile') : path('hwi_oauth_service_redirect', {service: 'auth'}) %}
                                     <a href="{{ url }}">Profil</a>
                                 </li>
                                 <li>
@@ -108,6 +111,11 @@
                                 <li>
                                     <a href="{{ path('app_create_citizen_initiative') }}">Créer une initiative</a>
                                 </li>
+                                {% if is_granted('CREATE_CITIZEN_PROJECT') %}
+                                    <li class="text--small">
+                                        <a href="{{ path('app_adherent_create_citizen_project') }}">Créer un projet citoyen</a>
+                                    </li>
+                                {% endif %}
                                 {% if is_granted('ROLE_ADHERENT') and is_granted('CREATE_COMMITTEE') %}
                                     <li class="nav__user__menu__separator"></li>
                                     <li>

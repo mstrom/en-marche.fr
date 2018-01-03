@@ -16,11 +16,19 @@
                 </div>
                 <div class="nav__user__menu">
                     <div class="nav__user__menu__comites">
+                        <h3>Comités</h3>
                         {# Prerendering this block and saving it in a variable prevents extra SQL queries #}
                         {% set adherent_committees %}
                             {{ render(controller('AppBundle:EnMarche/Adherent:listMyCommittees')) }}
                         {% endset %}
                         {{ adherent_committees }}
+                    </div>
+                    <div class="nav__user__menu__items citizen_projects">
+                        <h3>Projets citoyens</h3>
+                        {% set adherent_citizen_projects %}
+                            {{ render(controller('AppBundle:EnMarche/Adherent:listMyCitizenProjects')) }}
+                        {% endset %}
+                        {{ adherent_citizen_projects }}
                     </div>
                     <ul class="nav__user__menu__account">
                         <li><a href="{{ path('app_search_events') }}">Tous les événements</a></li>
