@@ -24,6 +24,7 @@ class AssetsController extends Controller
 {
     private const WIDTH = 250;
     private const HEIGHT = 170;
+    private const WIDTH_TIMELINE = 770;
 
     /**
      * @Route("/assets/{path}", defaults={"_enable_campaign_silence"=true}, requirements={"path"=".+"}, name="asset_url")
@@ -124,12 +125,21 @@ class AssetsController extends Controller
         $glide->setResponseFactory(new SymfonyResponseFactory($request));
 
         try {
-            return $glide->getImageResponse($this->getTypePath($type, $slug), [
-                'w' => self::WIDTH,
-                'h' => self::HEIGHT,
-                'fit' => 'crop',
-                'fm' => 'pjpg',
-            ]);
+            if ('timeline-theme' === $type) {
+                $params = [
+                    'w' => self::WIDTH_TIMELINE,
+                    'fm' => 'pjpg',
+                ];
+            } else {
+                $params = [
+                    'w' => self::WIDTH,
+                    'h' => self::HEIGHT,
+                    'fit' => 'crop',
+                    'fm' => 'pjpg',
+                ];
+            }
+
+            return $glide->getImageResponse($this->getTypePath($type, $slug), $params);
         } catch (FileNotFoundException $e) {
             throw $this->createNotFoundException();
         }

@@ -40,11 +40,6 @@ class ImportTimelineCommand extends Command
         ;
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(['', 'Starting Timeline import.']);

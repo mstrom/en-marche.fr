@@ -33,7 +33,7 @@ class TimelineFactory
         $this->storage = $storage;
         $this->filesystem = $filesystem;
 
-        $this->slugifier->activateRuleSet('french');
+        $this->slugifier->activateRuleSet('default');
     }
 
     public function createProfile(string $title, string $description): Profile
