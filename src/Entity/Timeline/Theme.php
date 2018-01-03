@@ -189,16 +189,24 @@ class Theme implements EntityMediaInterface
 
             $measures[] = [
                 'id' => $measure->getId(),
-                'featured' => $themeMeasure->isFeatured(),
                 'title' => $measure->getTitle(),
+                'status' => $measure->getStatus(),
+                'featured' => $themeMeasure->isFeatured(),
+                'global' => $measure->isGlobal(),
                 'profiles' => $profiles,
                 'updated' => $measure->getUpdatedAt(),
                 'link' => $measure->getLink(),
-                'status' => $measure->getStatus(),
-                'global' => $measure->getGlobal(),
             ];
         }
 
         return $measures;
+    }
+
+    /**
+     * @Algolia\Attribute
+     */
+    public function image(): ?string
+    {
+        return $this->media ? $this->media->getPathWithDirectory() : null;
     }
 }

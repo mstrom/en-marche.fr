@@ -20,11 +20,13 @@ class Measure
     const STATUS_UPCOMING = 'UPCOMING';
     const STATUS_IN_PROGRESS = 'IN_PROGRESS';
     const STATUS_DONE = 'DONE';
+    const STATUS_DEFERRED = 'DEFERRED';
 
     const STATUSES = [
         'À venir' => self::STATUS_UPCOMING,
         'En cours' => self::STATUS_IN_PROGRESS,
         'Fait' => self::STATUS_DONE,
+        'Reporté' => self::STATUS_DEFERRED,
     ];
 
     /**
@@ -187,7 +189,7 @@ class Measure
         return $this->updated->format('Y-m-d H:i:s');
     }
 
-    public function getGlobal(): bool
+    public function isGlobal(): bool
     {
         return $this->global;
     }
@@ -227,5 +229,10 @@ class Measure
     public function isDone(): bool
     {
         return self::STATUS_DONE === $this->status;
+    }
+
+    public function isDeferred(): bool
+    {
+        return self::STATUS_DEFERRED === $this->status;
     }
 }
