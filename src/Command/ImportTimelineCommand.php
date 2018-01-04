@@ -67,11 +67,11 @@ class ImportTimelineCommand extends Command
             list($title, $description) = $row;
 
             if (empty($title)) {
-                throw new \RuntimeException(sprintf('No title found for profile. (line %s)', $index + 2));
+                throw new \RuntimeException(sprintf('No title found for profile. (line %d)', $index + 2));
             }
 
             if (empty($description)) {
-                throw new \RuntimeException(sprintf('No description found for profile "%s". (line %s)', $title, $index + 2));
+                throw new \RuntimeException(sprintf('No description found for profile "%s". (line %d)', $title, $index + 2));
             }
 
             $this->em->persist($this->factory->createProfile($title, $description));
@@ -96,13 +96,13 @@ class ImportTimelineCommand extends Command
             list($title, $isFeatured, $description, $imageUrl) = $row;
 
             if (empty($title)) {
-                throw new \RuntimeException(sprintf('No title found for theme. (line %s)', $index + 2));
+                throw new \RuntimeException(sprintf('No title found for theme. (line %d)', $index + 2));
             }
 
             $isFeatured = strtolower($isFeatured);
             if (!array_key_exists($isFeatured, self::BOOLEAN_CHOICES)) {
                 throw new \RuntimeException(sprintf(
-                    'Invalid featured flag label "%s" given for theme "%s". Valid values are: "%s". (line %s)',
+                    'Invalid featured flag label "%s" given for theme "%s". Valid values are: "%s". (line %d)',
                     $isFeatured,
                     $title,
                     implode(', ', array_keys(self::BOOLEAN_CHOICES)),
@@ -111,11 +111,11 @@ class ImportTimelineCommand extends Command
             }
 
             if (empty($description)) {
-                throw new \RuntimeException(sprintf('No description found for theme "%s". (line %s)', $title, $index + 2));
+                throw new \RuntimeException(sprintf('No description found for theme "%s". (line %d)', $title, $index + 2));
             }
 
             if (empty($imageUrl)) {
-                throw new \RuntimeException(sprintf('No image url found for theme "%s". (line %s)', $title, $index + 2));
+                throw new \RuntimeException(sprintf('No image url found for theme "%s". (line %d)', $title, $index + 2));
             }
 
             $this->em->persist($this->factory->createTheme(
@@ -131,7 +131,7 @@ class ImportTimelineCommand extends Command
         $this->em->flush();
         $this->em->clear();
 
-        $output->writeln(sprintf('Saved %s themes.', $count));
+        $output->writeln(sprintf('Saved %d themes.', $count));
     }
 
     public function importMeasures(InputInterface $input, OutputInterface $output): void
@@ -148,12 +148,12 @@ class ImportTimelineCommand extends Command
             list($title, $status, $isGlobal, $themes, $profiles, $link) = $row;
 
             if (empty($title)) {
-                throw new \RuntimeException(sprintf('No title found for measure. (line %s)', $index + 2));
+                throw new \RuntimeException(sprintf('No title found for measure. (line %d)', $index + 2));
             }
 
             if (Measure::TITLE_MAX_LENGTH < mb_strlen($title)) {
                 throw new \RuntimeException(sprintf(
-                    'Measure title "%s" is too long. (%s characters max).',
+                    'Measure title "%s" is too long. (%d characters max).',
                     $title,
                     Measure::TITLE_MAX_LENGTH
                 ));
@@ -161,7 +161,7 @@ class ImportTimelineCommand extends Command
 
             if (!array_key_exists($status, Measure::STATUSES)) {
                 throw new \RuntimeException(sprintf(
-                    'Invalid status for measure "%s": "%s" given, valid values are "%s". (line %s)',
+                    'Invalid status for measure "%s": "%s" given, valid values are "%s". (line %d)',
                     $title,
                     $status,
                     implode(', ', array_keys(Measure::STATUSES)),
@@ -176,7 +176,7 @@ class ImportTimelineCommand extends Command
 
                     if (!array_key_exists($themeTitle, $savedThemes)) {
                         throw new \RuntimeException(sprintf(
-                            'No theme found with title "%s" for measure "%s". (line %s)',
+                            'No theme found with title "%s" for measure "%s". (line %d)',
                             $themeTitle,
                             $title,
                             $index + 2
@@ -194,7 +194,7 @@ class ImportTimelineCommand extends Command
 
                     if (!array_key_exists($profileTitle, $savedProfiles)) {
                         throw new \RuntimeException(sprintf(
-                            'No profile found with title "%s" for measure "%s". (line %s)',
+                            'No profile found with title "%s" for measure "%s". (line %d)',
                             $profileTitle,
                             $title,
                             $index + 2
@@ -226,14 +226,14 @@ class ImportTimelineCommand extends Command
                 $this->em->clear(Measure::class);
                 $this->em->clear(ThemeMeasure::class);
 
-                $output->writeln(sprintf('Saved %s measures.', $count));
+                $output->writeln(sprintf('Saved %d measures.', $count));
             }
         }
 
         $this->em->flush();
         $this->em->clear();
 
-        $output->writeln(sprintf('Saved %s measures.', $count));
+        $output->writeln(sprintf('Saved %d measures.', $count));
     }
 
     public function importFeaturedThemeMeasures(InputInterface $input, OutputInterface $output): void

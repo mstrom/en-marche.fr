@@ -29,6 +29,7 @@ class TimelineThemeMeasureType extends AbstractType
             ->add('featured', CheckboxType::class, [
                 'label' => 'Mise en avant',
                 'required' => false,
-            ]);
+            ])
+        ;
     }
 }

@@ -46,7 +46,7 @@
 		<service id="AppBundle\Form\CitizenProjectCommandType"/>
 
 		<!-- Timeline -->
-		<service id="AppBundle\Timeline\TimelineFactory" />
 		<service id="AppBundle\Command\ImportTimelineCommand" />
+		<service id="AppBundle\Timeline\TimelineFactory" />
 	</services>
 </container>
