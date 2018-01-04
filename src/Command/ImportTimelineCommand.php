@@ -131,7 +131,7 @@ class ImportTimelineCommand extends Command
         $this->em->flush();
         $this->em->clear();
 
-        $output->writeln(sprintf('Saved %s themes.', $count));
+        $output->writeln(sprintf('Saved %d themes.', $count));
     }
 
     public function importMeasures(InputInterface $input, OutputInterface $output): void

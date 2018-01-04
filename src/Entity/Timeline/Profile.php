@@ -64,7 +64,7 @@ class Profile
 
     public function __toString()
     {
-        return $this->title ?: '';
+        return $this->title;
     }
 
     public function getId(): ?int
@@ -87,7 +87,7 @@ class Profile
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): void
+    public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
