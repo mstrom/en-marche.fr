@@ -490,10 +490,6 @@ class AdherentControllerTest extends MysqlWebTestCase
         );
         $this->assertSame(
             'Cette valeur ne doit pas être vide.',
-            $this->client->getCrawler()->filter('#field-category > .form__errors > li')->text()
-        );
-        $this->assertSame(
-            'Cette valeur ne doit pas être vide.',
             $this->client->getCrawler()->filter('#field-subtitle > .form__errors > li')->text()
         );
         $this->assertSame(
