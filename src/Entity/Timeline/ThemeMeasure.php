@@ -70,7 +70,7 @@ class ThemeMeasure
         $this->featured = $featured;
     }
 
-    public function getTheme(): ?Theme
+    public function getTheme(): Theme
     {
         return $this->theme;
     }
@@ -80,7 +80,7 @@ class ThemeMeasure
         $this->theme = $theme;
     }
 
-    public function getMeasure(): ?Measure
+    public function getMeasure(): Measure
     {
         return $this->measure;
     }

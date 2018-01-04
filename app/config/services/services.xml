@@ -40,7 +40,7 @@
 		<service id="AppBundle\Report\ReportCreationCommandHandler"/>
 
 		<!-- Timeline -->
+        <service id="AppBundle\Command\ImportTimelineCommand" />
 		<service id="AppBundle\Timeline\TimelineFactory" />
-		<service id="AppBundle\Command\ImportTimelineCommand" />
 	</services>
 </container>

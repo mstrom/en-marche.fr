@@ -15,14 +15,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Measure
 {
-    const TITLE_MAX_LENGTH = 100;
+    public const TITLE_MAX_LENGTH = 100;
 
-    const STATUS_UPCOMING = 'UPCOMING';
-    const STATUS_IN_PROGRESS = 'IN_PROGRESS';
-    const STATUS_DONE = 'DONE';
-    const STATUS_DEFERRED = 'DEFERRED';
+    public const STATUS_UPCOMING = 'UPCOMING';
+    public const STATUS_IN_PROGRESS = 'IN_PROGRESS';
+    public const STATUS_DONE = 'DONE';
+    public const STATUS_DEFERRED = 'DEFERRED';
 
-    const STATUSES = [
+    public const STATUSES = [
         'À venir' => self::STATUS_UPCOMING,
         'En cours' => self::STATUS_IN_PROGRESS,
         'Fait' => self::STATUS_DONE,
@@ -45,8 +45,8 @@ class Measure
      *
      * @ORM\Column(length=100)
      *
-     * @Assert\Length(max = Measure::TITLE_MAX_LENGTH)
      * @Assert\NotBlank
+     * @Assert\Length(max=Measure::TITLE_MAX_LENGTH)
      *
      * @Algolia\Attribute
      */
@@ -84,7 +84,7 @@ class Measure
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
-    private $updated;
+    private $updatedAt;
 
     /**
      * @var bool
@@ -129,7 +129,7 @@ class Measure
 
     public function __toString()
     {
-        return $this->title ?: '';
+        return $this->title;
     }
 
     public function getId(): ?int
@@ -137,12 +137,12 @@ class Measure
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle($title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
@@ -157,7 +157,7 @@ class Measure
         $this->link = $link;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -167,26 +167,21 @@ class Measure
         $this->status = $status;
     }
 
-    public function getStatuses(): array
+    public function getUpdatedAt(): ?\DateTime
     {
-        return self::STATUSES;
-    }
-
-    public function getUpdated(): ?\DateTime
-    {
-        return $this->updated;
+        return $this->updatedAt;
     }
 
     /**
      * @Algolia\Attribute
      */
-    public function getUpdatedAt(): ?string
+    public function getFormattedUpdatedAt(): ?string
     {
-        if (!$this->updated) {
+        if (!$this->updatedAt) {
             return null;
         }
 
-        return $this->updated->format('Y-m-d H:i:s');
+        return $this->updatedAt->format('Y-m-d H:i:s');
     }
 
     public function isGlobal(): bool
@@ -234,5 +229,10 @@ class Measure
     public function isDeferred(): bool
     {
         return self::STATUS_DEFERRED === $this->status;
+    }
+
+    public function equals(Measure $measure): bool
+    {
+        return $measure->getTitle() === $this->title;
     }
 }

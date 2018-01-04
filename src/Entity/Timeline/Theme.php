@@ -3,6 +3,7 @@
 namespace AppBundle\Entity\Timeline;
 
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
+use AppBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -154,7 +155,7 @@ class Theme implements EntityMediaInterface
     public function setFeaturedMeasure(Measure $measure): void
     {
         foreach ($this->measures as $themeMeasure) {
-            if ($themeMeasure->getMeasure()->getTitle() === $measure->getTitle()) {
+            if ($themeMeasure->getMeasure()->equals($measure)) {
                 $themeMeasure->setFeatured(true);
 
                 return;
@@ -208,5 +209,23 @@ class Theme implements EntityMediaInterface
     public function image(): ?string
     {
         return $this->media ? $this->media->getPathWithDirectory() : null;
+    }
+
+    public static function create(
+        string $title,
+        string $slug,
+        string $description,
+        Media $media,
+        bool $isFeatured
+    ): self {
+        $theme = new self();
+
+        $theme->title = $title;
+        $theme->slug = $slug;
+        $theme->description = $description;
+        $theme->media = $media;
+        $theme->featured = $isFeatured;
+
+        return $theme;
     }
 }
