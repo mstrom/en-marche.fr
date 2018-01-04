@@ -54,7 +54,8 @@ class CitizenProjectCommand
     public $phone;
 
     /**
-     * @Assert\NotBlank
+     * @Assert\NotNull
+     * @Assert\Type("AppBundle\Entity\CitizenProjectCategory")
      */
     public $category;
 
