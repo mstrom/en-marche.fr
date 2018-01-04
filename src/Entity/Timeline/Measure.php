@@ -231,8 +231,8 @@ class Measure
         return self::STATUS_DEFERRED === $this->status;
     }
 
-    public function equals(Measure $measure): bool
+    public function equals(self $measure): bool
     {
-        return $measure->getTitle() === $this->title;
+        return $measure->title === $this->title;
     }
 }
