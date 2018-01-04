@@ -70,7 +70,7 @@ class Measure
      *
      * @Assert\NotBlank
      * @Assert\Choice(
-     *      callback={"AppBundle\Entity\Timeline\Measure", "getStatuses"},
+     *      choices=Measure::STATUSES,
      *      strict=true
      * )
      *
