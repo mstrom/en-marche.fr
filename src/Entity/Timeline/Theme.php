@@ -3,7 +3,6 @@
 namespace AppBundle\Entity\Timeline;
 
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
-use AppBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -162,19 +161,5 @@ class Theme implements EntityMediaInterface
     public function image(): ?string
     {
         return $this->media ? $this->media->getPathWithDirectory() : null;
-    }
-
-    public static function create(
-        string $title,
-        string $slug,
-        string $description,
-        Media $media,
-        bool $isFeatured
-    ): self {
-        $theme = new self($title, $slug, $description, $isFeatured);
-
-        $theme->media = $media;
-
-        return $theme;
     }
 }
