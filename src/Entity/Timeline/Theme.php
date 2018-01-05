@@ -73,14 +73,19 @@ class Theme implements EntityMediaInterface
     private $featured = false;
 
     /**
-     * @var ThemeMeasure[]|Collection
+     * @var Measure[]|Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Timeline\ThemeMeasure", mappedBy="theme", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Timeline\Measure", mappedBy="themes")
+     *
+     * @Algolia\Attribute
      */
     private $measures;
 
-    public function __construct()
+    public function __construct(string $title, string $slug, string $description, bool $featured = false)
     {
+        $this->title = $title;
+        $this->slug = $slug;
+        $this->description = $description;
         $this->measures = new ArrayCollection();
     }
 
@@ -94,12 +99,12 @@ class Theme implements EntityMediaInterface
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(?string $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -114,12 +119,12 @@ class Theme implements EntityMediaInterface
         $this->slug = $slug;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -139,68 +144,16 @@ class Theme implements EntityMediaInterface
         return $this->measures;
     }
 
-    public function addMeasure(ThemeMeasure $measure): void
+    public function addMeasure(Measure $measure): void
     {
         if (!$this->measures->contains($measure)) {
-            $measure->setTheme($this);
             $this->measures->add($measure);
         }
     }
 
-    public function removeMeasure(ThemeMeasure $measure): void
+    public function removeMeasure(Measure $measure): void
     {
         $this->measures->removeElement($measure);
-    }
-
-    public function setFeaturedMeasure(Measure $measure): void
-    {
-        foreach ($this->measures as $themeMeasure) {
-            if ($themeMeasure->getMeasure()->equals($measure)) {
-                $themeMeasure->setFeatured(true);
-
-                return;
-            }
-        }
-
-        throw new \InvalidArgumentException(sprintf(
-           'Theme "%s" has no measure "%s".',
-           $this->title,
-           $measure->getTitle()
-        ));
-    }
-
-    /**
-     * @Algolia\Attribute
-     */
-    public function measures(): array
-    {
-        $measures = [];
-
-        foreach ($this->measures as $themeMeasure) {
-            $measure = $themeMeasure->getMeasure();
-
-            $profiles = [];
-            foreach ($measure->getProfiles() as $profile) {
-                $profiles[] = [
-                    'title' => $profile->getTitle(),
-                    'slug' => $profile->getSlug(),
-                    'description' => $profile->getDescription(),
-                ];
-            }
-
-            $measures[] = [
-                'id' => $measure->getId(),
-                'title' => $measure->getTitle(),
-                'status' => $measure->getStatus(),
-                'featured' => $themeMeasure->isFeatured(),
-                'global' => $measure->isGlobal(),
-                'profiles' => $profiles,
-                'updated' => $measure->getUpdatedAt(),
-                'link' => $measure->getLink(),
-            ];
-        }
-
-        return $measures;
     }
 
     /**
@@ -218,13 +171,9 @@ class Theme implements EntityMediaInterface
         Media $media,
         bool $isFeatured
     ): self {
-        $theme = new self();
+        $theme = new self($title, $slug, $description, $isFeatured);
 
-        $theme->title = $title;
-        $theme->slug = $slug;
-        $theme->description = $description;
         $theme->media = $media;
-        $theme->featured = $isFeatured;
 
         return $theme;
     }

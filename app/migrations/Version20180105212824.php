@@ -1,0 +1,28 @@
+<?php
+
+namespace Migrations;
+
+use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\DBAL\Schema\Schema;
+
+class Version20180105212824 extends AbstractMigration
+{
+    public function up(Schema $schema)
+    {
+        $this->addSql('ALTER TABLE timeline_measures CHANGE global major TINYINT(1) DEFAULT \'0\' NOT NULL');
+        $this->addSql('ALTER TABLE timeline_themes_measures MODIFY id BIGINT NOT NULL');
+        $this->addSql('ALTER TABLE timeline_themes_measures DROP PRIMARY KEY');
+        $this->addSql('ALTER TABLE timeline_themes_measures DROP id, DROP featured, CHANGE theme_id theme_id BIGINT NOT NULL, CHANGE measure_id measure_id BIGINT NOT NULL');
+        $this->addSql('ALTER TABLE timeline_themes_measures ADD PRIMARY KEY (measure_id, theme_id)');
+    }
+
+    public function down(Schema $schema)
+    {
+        $this->addSql('ALTER TABLE timeline_measures CHANGE major global TINYINT(1) DEFAULT \'0\' NOT NULL');
+        $this->addSql('TRUNCATE TABLE timeline_themes_measures');
+        $this->addSql('ALTER TABLE timeline_themes_measures DROP PRIMARY KEY');
+        $this->addSql('ALTER TABLE timeline_themes_measures ADD id BIGINT NOT NULL, ADD featured TINYINT(1) DEFAULT \'0\' NOT NULL, CHANGE measure_id measure_id BIGINT DEFAULT NULL, CHANGE theme_id theme_id BIGINT DEFAULT NULL');
+        $this->addSql('ALTER TABLE timeline_themes_measures ADD PRIMARY KEY (id)');
+        $this->addSql('ALTER TABLE timeline_themes_measures CHANGE id id BIGINT AUTO_INCREMENT NOT NULL');
+    }
+}

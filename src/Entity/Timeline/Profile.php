@@ -26,8 +26,8 @@ class Profile
      *
      * @ORM\Column(length=100)
      *
-     * @Assert\Length(max=100)
      * @Assert\NotBlank
+     * @Assert\Length(max=100)
      *
      * @Algolia\Attribute
      */
@@ -77,7 +77,7 @@ class Profile
         return $this->title;
     }
 
-    public function setTitle(?string $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -97,7 +97,7 @@ class Profile
         return $this->description;
     }
 
-    public function setDescription(?string $description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }

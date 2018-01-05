@@ -44,7 +44,10 @@ class TimelineMeasureAdmin extends AbstractAdmin
                 ->add('profiles', null, [
                     'label' => 'Profils',
                 ])
-                ->add('global', CheckboxType::class, [
+                ->add('themes', null, [
+                    'label' => 'Thèmes',
+                ])
+                ->add('major', CheckboxType::class, [
                     'label' => 'Mise en avant (32)',
                     'required' => false,
                 ])
@@ -70,6 +73,9 @@ class TimelineMeasureAdmin extends AbstractAdmin
             ])
             ->add('profiles', TextType::class, [
                 'label' => 'Profils',
+            ])
+            ->add('themes', TextType::class, [
+                'label' => 'Thèmes',
             ])
             ->add('updated', null, [
                 'label' => 'Date de modification',
