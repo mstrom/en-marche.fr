@@ -80,7 +80,7 @@ class TimelineMeasureAdmin extends AbstractAdmin
                 ],
             ])
             ->add('major', null, [
-                'label' => 'Mise en avant',
+                'label' => 'Mise en avant (32)',
                 'show_filter' => true,
             ])
         ;
