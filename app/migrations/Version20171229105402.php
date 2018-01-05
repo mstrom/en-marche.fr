@@ -19,9 +19,6 @@ class Version20171229105402 extends AbstractMigration
         $this->addSql('ALTER TABLE timeline_themes ADD CONSTRAINT FK_8ADDB8F6EA9FDD75 FOREIGN KEY (media_id) REFERENCES medias (id)');
         $this->addSql('ALTER TABLE timeline_themes_measures ADD CONSTRAINT FK_EB8A7B0C59027487 FOREIGN KEY (theme_id) REFERENCES timeline_themes (id)');
         $this->addSql('ALTER TABLE timeline_themes_measures ADD CONSTRAINT FK_EB8A7B0C5DA37D00 FOREIGN KEY (measure_id) REFERENCES timeline_measures (id)');
-        $this->addSql('ALTER TABLE events CHANGE expert_found expert_found TINYINT(1) DEFAULT \'0\'');
-        $this->addSql('ALTER TABLE order_section_order_article RENAME INDEX idx_69d950adc14e7bc9 TO IDX_A956D4E4C14E7BC9');
-        $this->addSql('ALTER TABLE order_section_order_article RENAME INDEX idx_69d950ad6bf91e2f TO IDX_A956D4E46BF91E2F');
     }
 
     public function down(Schema $schema)
@@ -35,8 +32,5 @@ class Version20171229105402 extends AbstractMigration
         $this->addSql('DROP TABLE timeline_themes');
         $this->addSql('DROP TABLE timeline_themes_measures');
         $this->addSql('DROP TABLE timeline_profiles');
-        $this->addSql('ALTER TABLE events CHANGE expert_found expert_found TINYINT(1) DEFAULT \'0\' NOT NULL');
-        $this->addSql('ALTER TABLE order_section_order_article RENAME INDEX idx_a956d4e4c14e7bc9 TO IDX_69D950ADC14E7BC9');
-        $this->addSql('ALTER TABLE order_section_order_article RENAME INDEX idx_a956d4e46bf91e2f TO IDX_69D950AD6BF91E2F');
     }
 }
