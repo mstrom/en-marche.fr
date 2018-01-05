@@ -52,14 +52,26 @@ class TimelineThemeAdmin extends AbstractAdmin
                 'label' => 'Titre',
                 'show_filter' => true,
             ])
+            ->add('featured', null, [
+                'label' => 'Mise en avant',
+                'show_filter' => true,
+            ])
         ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('_thumbnail', null, [
+                'label' => 'Image',
+                'virtual_field' => true,
+                'template' => 'admin/timeline/theme/list_image.html.twig',
+            ])
             ->addIdentifier('title', null, [
                 'label' => 'Nom',
+            ])
+            ->add('featured', null, [
+                'label' => 'Mise en avant',
             ])
             ->add('_action', null, [
                 'virtual_field' => true,
