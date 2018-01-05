@@ -3,13 +3,13 @@
 namespace AppBundle\Algolia;
 
 use Algolia\AlgoliaSearchBundle\Indexer\Indexer;
-use Algolia\AlgoliaSearchBundle\Indexer\ManualIndexer;
+use Algolia\AlgoliaSearchBundle\Indexer\ManualIndexer as BaseManualIndexer;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ManualIndexer implements ManualIndexerInterface
 {
     /**
-     * @var ManualIndexer
+     * @var BaseManualIndexer
      */
     private $algolia;
 
