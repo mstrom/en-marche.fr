@@ -23,6 +23,12 @@
 		<service id="AppBundle\Membership\AdherentManager" />
 		<service id="AppBundle\Membership\AdherentRegistry" public="true" />
 
+		<!-- Algolia -->
+		<service id="AppBundle\Algolia\ManualIndexer">
+		    <factory class="Algolia\AlgoliaSearchBundle\Indexer\Indexer" method="getManualIndexer" />
+		    <argument type="service" id="Doctrine\ORM\EntityManagerInterface" />
+		</service>
+
 		<!-- CitizenProject -->
 		<service id="AppBundle\CitizenProject\CitizenProjectManager">
 			<call method="setGlide">
@@ -43,8 +49,5 @@
 		<service id="AppBundle\Command\ImportTimelineCommand" />
 		<service id="AppBundle\Timeline\MeasureManager" />
 		<service id="AppBundle\Timeline\TimelineFactory" />
-
-		<!-- Algolia -->
-		<service id="AppBundle\Algolia\ManualIndexer" />
 	</services>
 </container>
