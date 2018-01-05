@@ -202,10 +202,10 @@ class LoadTimelineData extends AbstractFixture
             $manager->persist(new Measure(
                 $metadatas['title'],
                 $metadatas['status'],
-                array_map(function(string $profileReference) {
+                array_map(function (string $profileReference) {
                     return $this->getReference($profileReference);
                 }, $metadatas['profiles']),
-                array_map(function(string $themeReference) {
+                array_map(function (string $themeReference) {
                     return $this->getReference($themeReference);
                 }, $metadatas['themes'])
             ));
