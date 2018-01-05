@@ -26,6 +26,7 @@
 		<!-- Algolia -->
 		<service id="AppBundle\Algolia\ManualIndexer">
 		    <factory class="Algolia\AlgoliaSearchBundle\Indexer\Indexer" method="getManualIndexer" />
+		    <argument type="service" id="Doctrine\ORM\EntityManagerInterface" />
 		</service>
 
 		<!-- CitizenProject -->
