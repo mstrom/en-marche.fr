@@ -80,8 +80,12 @@ class Theme implements EntityMediaInterface
      */
     private $measures;
 
-    public function __construct(string $title, string $slug, string $description, bool $featured = false)
-    {
+    public function __construct(
+        ?string $title = null,
+        ?string $slug = null,
+        ?string $description = null,
+        ?bool $featured = false
+    ) {
         $this->title = $title;
         $this->slug = $slug;
         $this->description = $description;
@@ -90,7 +94,7 @@ class Theme implements EntityMediaInterface
 
     public function __toString()
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     public function getId(): ?int
@@ -98,7 +102,7 @@ class Theme implements EntityMediaInterface
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -108,7 +112,7 @@ class Theme implements EntityMediaInterface
         $this->title = $title;
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
@@ -118,7 +122,7 @@ class Theme implements EntityMediaInterface
         $this->slug = $slug;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -128,7 +132,7 @@ class Theme implements EntityMediaInterface
         $this->description = $description;
     }
 
-    public function getFeatured(): bool
+    public function isFeatured(): bool
     {
         return $this->featured;
     }

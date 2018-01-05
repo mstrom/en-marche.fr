@@ -55,8 +55,11 @@ class Profile
      */
     private $description;
 
-    public function __construct(string $title, string $slug, string $description)
-    {
+    public function __construct(
+        ?string $title = null,
+        ?string $slug = null,
+        ?string $description = null
+    ) {
         $this->title = $title;
         $this->slug = $slug;
         $this->description = $description;
@@ -64,7 +67,7 @@ class Profile
 
     public function __toString()
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     public function getId(): ?int
@@ -72,7 +75,7 @@ class Profile
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -82,7 +85,7 @@ class Profile
         $this->title = $title;
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }

@@ -9,7 +9,6 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -48,8 +47,8 @@ class TimelineMeasureAdmin extends AbstractAdmin
                 ->add('themes', null, [
                     'label' => 'Thèmes',
                 ])
-                ->add('major', CheckboxType::class, [
-                    'label' => 'Mise en avant (32)',
+                ->add('major', null, [
+                    'label' => 'Mise en avant',
                     'required' => false,
                 ])
             ->end()

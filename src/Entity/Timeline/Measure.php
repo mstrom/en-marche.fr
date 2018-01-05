@@ -138,8 +138,8 @@ class Measure
      * @param bool|null   $isGlobal
      */
     public function __construct(
-        string $title,
-        string $status,
+        ?string $title = null,
+        ?string $status = null,
         array $profiles = [],
         array $themes = [],
         ?string $link = null,
@@ -155,7 +155,7 @@ class Measure
 
     public function __toString()
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     public function getId(): ?int
@@ -163,12 +163,12 @@ class Measure
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(?string $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -183,7 +183,7 @@ class Measure
         $this->link = $link;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
