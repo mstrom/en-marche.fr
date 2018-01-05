@@ -25,7 +25,7 @@
 
 		<!-- Algolia -->
 		<service id="AppBundle\Algolia\ManualIndexer">
-		    <factory service="Algolia\AlgoliaSearchBundle\Indexer\Indexer" method="getManualIndexer" />
+		    <factory service="algolia.indexer" method="getManualIndexer" />
 		    <argument type="service" id="doctrine.orm.entity_manager" />
 		</service>
 
