@@ -24,6 +24,8 @@ class Theme implements EntityMediaInterface
      * @ORM\Column(type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Algolia\Attribute
      */
     private $id;
 
