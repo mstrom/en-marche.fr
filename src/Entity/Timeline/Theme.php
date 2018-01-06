@@ -13,6 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="timeline_themes")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Timeline\ThemeRepository")
+ *
+ * @Algolia\Index(
+ *     hitsPerPage=100,
+ *     attributesForFaceting={"title", "profileIds"}
+ * )
  */
 class Theme implements EntityMediaInterface
 {
