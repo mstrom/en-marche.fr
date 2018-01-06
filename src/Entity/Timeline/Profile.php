@@ -58,9 +58,9 @@ class Profile
     private $description;
 
     public function __construct(
-        ?string $title = null,
-        ?string $slug = null,
-        ?string $description = null
+        string $title = null,
+        string $slug = null,
+        string $description = null
     ) {
         $this->title = $title;
         $this->slug = $slug;

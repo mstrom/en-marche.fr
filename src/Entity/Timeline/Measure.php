@@ -108,8 +108,6 @@ class Measure
      *         @ORM\JoinColumn(name="profile_id", referencedColumnName="id")
      *     }
      * )
-     *
-     * @Algolia\Attribute
      */
     private $profiles;
 
@@ -129,6 +127,8 @@ class Measure
      */
     private $themes;
 
+    private $savedThemes;
+
     /**
      * @param string      $title
      * @param string      $status
@@ -138,12 +138,12 @@ class Measure
      * @param bool|null   $isGlobal
      */
     public function __construct(
-        ?string $title = null,
-        ?string $status = null,
+        string $title = null,
+        string $status = null,
         array $profiles = [],
         array $themes = [],
-        ?string $link = null,
-        ?bool $isMajor = false
+        string $link = null,
+        bool $isMajor = false
     ) {
         $this->title = $title;
         $this->status = $status;
@@ -151,6 +151,7 @@ class Measure
         $this->major = $isMajor;
         $this->profiles = new ArrayCollection($profiles);
         $this->themes = new ArrayCollection($themes);
+        $this->savedThemes = new ArrayCollection();
     }
 
     public function __toString()
@@ -277,5 +278,33 @@ class Measure
     public function equals(self $measure): bool
     {
         return $measure->title === $this->title;
+    }
+
+    public function saveCurrentThemes(): void
+    {
+        $this->savedThemes = clone $this->themes;
+    }
+
+    public function getThemesToIndex(): ArrayCollection
+    {
+        $themes = new ArrayCollection();
+
+        foreach (array_merge($this->savedThemes->toArray(), $this->themes->toArray()) as $theme) {
+            if (!$themes->contains($theme)) {
+                $themes->add($theme);
+            }
+        }
+
+        return $themes;
+    }
+
+    /**
+     * @Algolia\Attribute
+     */
+    public function profiles(): array
+    {
+        return array_map(function (Profile $profile) {
+            return $profile->getId();
+        }, $this->profiles->toArray());
     }
 }

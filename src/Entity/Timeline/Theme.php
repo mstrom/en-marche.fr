@@ -77,20 +77,19 @@ class Theme implements EntityMediaInterface
      * @var Measure[]|Collection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Timeline\Measure", mappedBy="themes")
-     *
-     * @Algolia\Attribute
      */
     private $measures;
 
     public function __construct(
-        ?string $title = null,
-        ?string $slug = null,
-        ?string $description = null,
-        ?bool $featured = false
+        string $title = null,
+        string $slug = null,
+        string $description = null,
+        bool $featured = false
     ) {
         $this->title = $title;
         $this->slug = $slug;
         $this->description = $description;
+        $this->featured = $featured;
         $this->measures = new ArrayCollection();
     }
 
@@ -167,5 +166,35 @@ class Theme implements EntityMediaInterface
     public function image(): ?string
     {
         return $this->media ? $this->media->getPathWithDirectory() : null;
+    }
+
+    /**
+     * @Algolia\Attribute
+     */
+    public function measures(): array
+    {
+        return array_map(function (Measure $measure) {
+            return $measure->getId();
+        }, $this->measures->toArray());
+    }
+
+    /**
+     * @Algolia\Attribute
+     */
+    public function profiles(): array
+    {
+        $profiles = new ArrayCollection();
+
+        foreach ($this->measures as $measure) {
+            foreach ($measure->getProfiles() as $profile) {
+                if (!$profiles->contains($profile)) {
+                    $profiles->add($profile);
+                }
+            }
+        }
+
+        return array_map(function (Profile $profile) {
+            return $profile->getId();
+        }, $profiles->toArray());
     }
 }
