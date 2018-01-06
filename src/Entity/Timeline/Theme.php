@@ -197,5 +197,4 @@ class Theme implements EntityMediaInterface
             return $profile->getId();
         }, $profiles->toArray());
     }
-
 }
