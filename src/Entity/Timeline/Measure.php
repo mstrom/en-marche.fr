@@ -93,7 +93,7 @@ class Measure
      *
      * @Algolia\Attribute
      */
-    private $global = false;
+    private $major = false;
 
     /**
      * @var Profile[]|Collection
@@ -114,29 +114,48 @@ class Measure
     private $profiles;
 
     /**
+     * @var Theme[]|Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Timeline\Theme")
+     * @ORM\JoinTable(
+     *     name="timeline_themes_measures",
+     *     joinColumns={
+     *         @ORM\JoinColumn(name="measure_id", referencedColumnName="id")
+     *     },
+     *     inverseJoinColumns={
+     *         @ORM\JoinColumn(name="theme_id", referencedColumnName="id")
+     *     }
+     * )
+     */
+    private $themes;
+
+    /**
      * @param string      $title
      * @param string      $status
      * @param Profile[]   $profiles
+     * @param Theme[]     $themes
      * @param string|null $link
      * @param bool|null   $isGlobal
      */
     public function __construct(
-        string $title,
-        string $status,
+        ?string $title = null,
+        ?string $status = null,
         array $profiles = [],
+        array $themes = [],
         ?string $link = null,
-        ?bool $isGlobal = false
+        ?bool $isMajor = false
     ) {
         $this->title = $title;
         $this->status = $status;
         $this->link = $link;
-        $this->global = $isGlobal;
+        $this->major = $isMajor;
         $this->profiles = new ArrayCollection($profiles);
+        $this->themes = new ArrayCollection($themes);
     }
 
     public function __toString()
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     public function getId(): ?int
@@ -144,12 +163,12 @@ class Measure
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(?string $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -164,7 +183,7 @@ class Measure
         $this->link = $link;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -191,14 +210,14 @@ class Measure
         return $this->updatedAt->format('Y-m-d H:i:s');
     }
 
-    public function isGlobal(): bool
+    public function isMajor(): bool
     {
-        return $this->global;
+        return $this->major;
     }
 
-    public function setGlobal(bool $global): void
+    public function setMajor(bool $major): void
     {
-        $this->global = $global;
+        $this->major = $major;
     }
 
     public function getProfiles(): Collection
@@ -216,6 +235,23 @@ class Measure
     public function removeProfile(Profile $profile): void
     {
         $this->profiles->removeElement($profile);
+    }
+
+    public function getThemes(): Collection
+    {
+        return $this->themes;
+    }
+
+    public function addTheme(Theme $theme): void
+    {
+        if (!$this->themes->contains($theme)) {
+            $this->themes->add($theme);
+        }
+    }
+
+    public function removeTheme(Theme $theme): void
+    {
+        $this->themes->removeElement($theme);
     }
 
     public function isUpcoming(): bool

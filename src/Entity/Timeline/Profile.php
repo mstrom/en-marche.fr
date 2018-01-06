@@ -26,8 +26,8 @@ class Profile
      *
      * @ORM\Column(length=100)
      *
-     * @Assert\Length(max=100)
      * @Assert\NotBlank
+     * @Assert\Length(max=100)
      *
      * @Algolia\Attribute
      */
@@ -55,8 +55,11 @@ class Profile
      */
     private $description;
 
-    public function __construct(string $title, string $slug, string $description)
-    {
+    public function __construct(
+        ?string $title = null,
+        ?string $slug = null,
+        ?string $description = null
+    ) {
         $this->title = $title;
         $this->slug = $slug;
         $this->description = $description;
@@ -64,7 +67,7 @@ class Profile
 
     public function __toString()
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     public function getId(): ?int
@@ -72,17 +75,17 @@ class Profile
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(?string $title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
@@ -97,7 +100,7 @@ class Profile
         return $this->description;
     }
 
-    public function setDescription(?string $description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
