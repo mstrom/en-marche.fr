@@ -171,7 +171,7 @@ class Theme implements EntityMediaInterface
     /**
      * @Algolia\Attribute
      */
-    public function measures(): array
+    public function measureIds(): array
     {
         return array_map(function (Measure $measure) {
             return $measure->getId();
@@ -181,7 +181,7 @@ class Theme implements EntityMediaInterface
     /**
      * @Algolia\Attribute
      */
-    public function profiles(): array
+    public function profileIds(): array
     {
         $profiles = new ArrayCollection();
 
