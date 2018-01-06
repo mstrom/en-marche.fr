@@ -14,8 +14,8 @@ class MeasureManager
         $this->algolia = $algolia;
     }
 
-    public function preUpdate(Measure $measure): void
+    public function postUpdate(Measure $measure): void
     {
-        $this->algolia->index($measure->getThemes());
+        $this->algolia->index($measure->getThemesToIndex());
     }
 }

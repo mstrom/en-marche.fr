@@ -121,8 +121,8 @@ class TimelineMeasureAdmin extends AbstractAdmin
     /**
      * @param Measure $object
      */
-    public function preUpdate($object)
+    public function postUpdate($object)
     {
-        $this->measureManager->preUpdate($object);
+        $this->measureManager->postUpdate($object);
     }
 }
