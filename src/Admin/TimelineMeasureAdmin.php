@@ -48,7 +48,7 @@ class TimelineMeasureAdmin extends AbstractAdmin
                     'label' => 'Thèmes',
                 ])
                 ->add('major', null, [
-                    'label' => 'Mise en avant',
+                    'label' => 'Mise en avant (32)',
                     'required' => false,
                 ])
             ->end()
@@ -106,7 +106,7 @@ class TimelineMeasureAdmin extends AbstractAdmin
                 'template' => 'admin/timeline/measure/list_status.html.twig',
             ])
             ->add('major', null, [
-                'label' => 'Mise en avant',
+                'label' => 'Mise en avant (32)',
             ])
             ->add('_action', null, [
                 'virtual_field' => true,
