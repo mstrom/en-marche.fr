@@ -14,6 +14,7 @@ class AdminTimelineMeasureController extends Controller
      */
     protected function preEdit(Request $request, $object)
     {
+        // Algolia: needed to index Themes that could be removed from this Measure during edition
         $object->saveCurrentThemes();
     }
 }

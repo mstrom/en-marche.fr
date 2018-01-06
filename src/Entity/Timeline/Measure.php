@@ -108,8 +108,6 @@ class Measure
      *         @ORM\JoinColumn(name="profile_id", referencedColumnName="id")
      *     }
      * )
-     *
-     * @Algolia\Attribute
      */
     private $profiles;
 
@@ -298,5 +296,15 @@ class Measure
         }
 
         return $themes;
+    }
+
+    /**
+     * @Algolia\Attribute
+     */
+    public function profiles(): array
+    {
+        return array_map(function (Profile $profile) {
+            return $profile->getId();
+        }, $this->profiles->toArray());
     }
 }
