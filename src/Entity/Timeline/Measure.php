@@ -301,7 +301,7 @@ class Measure
     /**
      * @Algolia\Attribute
      */
-    public function profiles(): array
+    public function profileIds(): array
     {
         return array_map(function (Profile $profile) {
             return $profile->getId();
