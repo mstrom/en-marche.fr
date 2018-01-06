@@ -16,6 +16,6 @@ class MeasureManager
 
     public function postUpdate(Measure $measure): void
     {
-        $this->algolia->index($measure->getThemesToIndex());
+        $this->algolia->index($measure->getThemesToIndex()->toArray());
     }
 }
